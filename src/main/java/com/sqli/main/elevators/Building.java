@@ -7,23 +7,22 @@ import java.util.stream.Stream;
 
 public class Building {
     private static final Logger LOG = Logger.getLogger(String.valueOf(Building.class));
-    private static String DOWN = "DOWN";
+    private static String down = "DOWN";
     private int numberOfFloors;
     private List<Elevator> elevators;
 
-    public Building(int numberOfFloors, String... elevatorsFloors) {
+    public Building(int numberOfFloors, String... elevatorsInfo) {
         this.numberOfFloors = numberOfFloors;
         elevators = new ArrayList<>();
-        for (int i = 0; i < elevatorsFloors.length; i++) {
-            String[] elevator;
-            elevator = elevatorsFloors[i].split(":");
-            Elevator Elevator = new Elevator(elevator[0]);
-            Elevator.setFloorState(Integer.parseInt(elevator[1]));
-            elevators.add(Elevator);
+        for (int i = 0; i < elevatorsInfo.length; i++) {
+            String[] elevatorSpecifications;
+            elevatorSpecifications = elevatorsInfo[i].split(":");
+            Elevator elevator = new Elevator(elevatorSpecifications[0]);
+            elevator.setFloorState(Integer.parseInt(elevatorSpecifications[1]));
+            elevators.add(elevator);
 
 
         }
-        // floor.split(":");
 
     }
 
@@ -41,7 +40,7 @@ public class Building {
     }
 
     public Stream<Elevator> findConvenientElevators() {
-        return elevators.stream().filter(e -> !(e.getDirection().equals(DOWN)) && !(e.getState().isStopped()));
+        return elevators.stream().filter(e -> !(e.getDirection().equals(down)) && !(e.getState().isStopped()));
     }
 
     public void move(String elevatorId, String direction) {
@@ -51,7 +50,7 @@ public class Building {
 
     public void stopAt(String elevatorId, int floor) {
         if (floor != numberOfFloors)
-            elevators.stream().filter(e -> e.getId().equals(elevatorId)).forEach(e -> e.stopElevator());
+            elevators.stream().filter(e -> e.getId().equals(elevatorId)).forEach(Elevator :: stopElevator);
 
 
     }

@@ -11,8 +11,6 @@ import org.junit.Test;
  * or down.
  * </p>
  * 
- * The objective of this exercise is to write a program that will identify which
- * elevator will be served once a request for an elevator is registered.
  * </p>
  * 
  * Please note these rules : </br>
