@@ -8,17 +8,20 @@ import java.util.stream.Stream;
 public class Building {
     private static final Logger LOG = Logger.getLogger(String.valueOf(Building.class));
     private static String down = "DOWN";
+
+ private  ElevatorDispatcher elevatorDispatcher;
     private int numberOfFloors;
     private List<Elevator> elevators;
 
-    public Building(int numberOfFloors, String... elevatorsInfo) {
+    public Building(ElevatorDispatcher elevatorDispatcher, int numberOfFloors, String... elevatorsInfo) {
+        this.elevatorDispatcher = elevatorDispatcher;
         this.numberOfFloors = numberOfFloors;
         elevators = new ArrayList<>();
         for (int i = 0; i < elevatorsInfo.length; i++) {
             String[] elevatorSpecifications;
             elevatorSpecifications = elevatorsInfo[i].split(":");
             Elevator elevator = new Elevator(elevatorSpecifications[0]);
-            elevator.setFloorState(Integer.parseInt(elevatorSpecifications[1]));
+            elevator.setCurrentFloor(Integer.parseInt(elevatorSpecifications[1]));
             elevators.add(elevator);
 
 
@@ -27,15 +30,13 @@ public class Building {
     }
 
     public String requestElevator() {
-        Elevator closestElevator;
-        closestElevator = findConvenientElevators().min(Comparator.comparing(e -> e.distanceBetweenFloors(numberOfFloors))).get();
+        Elevator closestElevator = elevatorDispatcher.findClosestElevator(elevators, numberOfFloors);
+
         return closestElevator.getId();
     }
 
-    public String requestElevator(int currentFloor) {
-        Elevator closestElevator;
-
-        closestElevator = findConvenientElevators().min(Comparator.comparing(e -> e.distanceBetweenFloors(currentFloor))).get();
+    public String requestElevator(int requestFloor) {
+        Elevator closestElevator = elevatorDispatcher.findClosestElevator(elevators, requestFloor); 
         return closestElevator.getId();
     }
 
@@ -54,6 +55,8 @@ public class Building {
 
 
     }
+
+
 
 
 }

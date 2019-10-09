@@ -1,40 +1,46 @@
 package com.sqli.main.elevators;
 
-public class Elevator {
+public final class Elevator extends GoingDownState {
     private String id;
     private ElevatorState state;
+    private int currentFloor;
+
 
 
     public Elevator(String id) {
         this.id = id;
-        this.state = new ElevatorState();
+        this.state = new RestingState();
     }
 
-    public String getId() {
-        return id;
+    public void setStateByFloor(int requestFloor){
+        if(requestFloor>currentFloor)
+            this.state=new GoingUpState();
+        if (requestFloor<currentFloor)
+            this.state=new GoingDownState();
+        else
+            this.state=new RestingState();
+    }
+
+    public int getCurrentFloor() {
+        return currentFloor;
+    }
+
+    public void setCurrentFloor(int currentFloor) {
+        this.currentFloor = currentFloor;
     }
 
     public ElevatorState getState() {
         return state;
     }
 
-    public void setFloorState(int floor) {
-        state.setFloor(floor);
+    public void setState(ElevatorState state) {
+        this.state = state;
     }
 
-    public void setDirection(String direction) {
-        state.setBehaviour(direction);
+    public String getId() {
+        return id;
     }
 
-    public String getDirection() {
-        return state.getBehaviour();
-    }
-
-    public int distanceBetweenFloors(int currentFloor) {
-        return Math.abs(currentFloor - state.getFloor());
-    }
-
-    public void stopElevator() {
-        this.state.setStopped(true);
-    }
+  public void moveUp(){}
+  public void moveDown(){}
 }

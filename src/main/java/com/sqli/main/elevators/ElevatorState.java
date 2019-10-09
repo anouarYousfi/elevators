@@ -1,37 +1,9 @@
 package com.sqli.main.elevators;
 
-public class ElevatorState {
-    private int floor;
-    private String behaviour;
-    private boolean stopped;
+public interface ElevatorState{
 
+    public void up(Building building , Elevator elevator , int destination);
+    public void down(Building building , Elevator elevator , int destination);
+    public void stop(Building building , Elevator elevator , int destination) ;
 
-    public ElevatorState() {
-        this.behaviour="REST";
-    }
-
-    public int getFloor() {
-        return floor;
-    }
-
-    public void setFloor(int floor) {
-        this.floor = floor;
-    }
-
-
-    public String getBehaviour() {
-        return behaviour;
-    }
-
-    public void setBehaviour(String behaviour) {
-        this.behaviour = behaviour;
-    }
-
-    public boolean isStopped() {
-        return stopped;
-    }
-
-    public void setStopped(boolean stopped) {
-        this.stopped = stopped;
-    }
 }
