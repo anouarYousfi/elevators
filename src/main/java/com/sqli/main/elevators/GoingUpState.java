@@ -3,13 +3,19 @@ package com.sqli.main.elevators;
 public class GoingUpState implements ElevatorState {
     @Override
     public void up(Building building, Elevator elevator, int destination) {
-        if (elevator.getCurrentFloor() == building.getNumberOfFloors())
-            elevator.setState(new GoingDownState());
+        if (elevator.getCurrentFloor() != destination) {
+            elevator.setCurrentFloor(elevator.getCurrentFloor() + 1);
+            up(building, elevator, destination);
+        } else
+            elevator.setState(new RestingState());
     }
 
     @Override
     public void down(Building building, Elevator elevator, int destination) {
-        throw new IllegalStateException();
+        if (elevator.getCurrentFloor() == building.getNumberOfFloors())
+            elevator.setState(new GoingDownState());
+        else throw new IllegalStateException();
+
     }
 
     @Override
